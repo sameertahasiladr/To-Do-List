@@ -8,6 +8,17 @@ DoIt Today is a full-stack task management application built as part of a Full S
 - **Backend API:** https://to-do-api-capq.onrender.com
 - **GitHub Repository:** https://github.com/sameertahasiladr/To-Do-List
 
+## Demo Login Credentials
+
+Use these accounts to test the application.
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@gmail.com` | `Admin@123` |
+| User | `user@gmail.com` | `User@123` |
+
+
+
 ## Features
 
 ### Task Management
@@ -171,6 +182,15 @@ npm run dev
 ```
 
 Open the local URL displayed by Vite, usually `http://localhost:5173`.
+
+## Demo Login Credentials
+
+Use these accounts to test the Local application.
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@gmail.com` | `Admin@123` |
+| Demo User | `user@gmail.com` | `User@123` |
 
 ## Environment Variables
 
