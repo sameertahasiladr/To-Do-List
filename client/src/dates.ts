@@ -6,14 +6,11 @@ export function todayLocal(): string {
 }
 
 export const dateOnly = (iso: string) => iso.slice(0, 10);
-
 export function formatDate(iso: string): string {
   const [y, m, d] = dateOnly(iso).split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
-
 export type DueTone = "today" | "overdue" | "normal";
-
 export function dueInfo(dueDate: string | null, done: boolean): { label: string; tone: DueTone } | null {
   if (!dueDate) return null;
   const due = dateOnly(dueDate);

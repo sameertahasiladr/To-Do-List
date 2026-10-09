@@ -13,9 +13,7 @@ interface FormState {
   password: string;
   role: Role;
 }
-
 const empty: FormState = { name: "", email: "", password: "", role: "USER" };
-
 export default function Users() {
   const { user: me } = useAuth();
   const toast = useToast();
@@ -24,7 +22,6 @@ export default function Users() {
   const [error, setError] = useState("");
   const [formError, setFormError] = useState("");
   const [toDelete, setToDelete] = useState<User | null>(null);
-
   const load = useCallback(async () => {
     try {
       setUsers(await api<User[]>("/users"));
@@ -32,9 +29,7 @@ export default function Users() {
       setError((err as Error).message);
     }
   }, []);
-
   useEffect(() => { load(); }, [load]);
-
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form) return;
@@ -51,7 +46,6 @@ export default function Users() {
       setFormError((err as Error).message);
     }
   };
-
   const remove = async (u: User) => {
     setToDelete(null);
     try {
@@ -62,7 +56,6 @@ export default function Users() {
       setError((err as Error).message);
     }
   };
-
   const changeRole = async (u: User, role: Role) => {
     try {
       await api(`/users/${u.id}`, { method: "PATCH", body: JSON.stringify({ role }) });
@@ -72,7 +65,6 @@ export default function Users() {
       setError((err as Error).message);
     }
   };
-
   return (
     <>
       <div className="page-head">
@@ -82,9 +74,7 @@ export default function Users() {
         </div>
         <button className="btn btn-primary" onClick={() => { setFormError(""); setForm(empty); }}>Add user</button>
       </div>
-
       {error && <div className="alert" role="alert">{error}</div>}
-
       {form && (
         <form className="panel form" onSubmit={submit}>
           <h2 className="form-title">{form.id ? "Edit user" : "Add user"}</h2>
@@ -114,7 +104,6 @@ export default function Users() {
           </div>
         </form>
       )}
-
       <div className="panel table-wrap">
         <table>
           <thead>
@@ -145,7 +134,6 @@ export default function Users() {
           </tbody>
         </table>
       </div>
-
       <ConfirmDialog
         open={!!toDelete}
         title="Delete user?"

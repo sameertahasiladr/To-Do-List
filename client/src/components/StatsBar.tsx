@@ -3,7 +3,6 @@ import { Stats } from "../types";
 export default function StatsBar({ stats }: { stats: Stats | null }) {
   if (!stats) return null;
   const percent = stats.total ? Math.round((stats.complete / stats.total) * 100) : 0;
-
   return (
     <section className="stats" aria-label="Progress">
       <div className="stats-top">

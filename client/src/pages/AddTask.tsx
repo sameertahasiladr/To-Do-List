@@ -14,7 +14,6 @@ export default function AddTask() {
   const [dueDate, setDueDate] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return setError("Task name is required");
@@ -32,13 +31,12 @@ export default function AddTask() {
       setBusy(false);
     }
   };
-
   return (
     <>
       <div className="page-head">
         <div>
           <h1>Add task</h1>
-          <p className="muted page-sub">Give it a name, set how urgent it is, and add a due date if it has one.</p>
+   
         </div>
       </div>
       <form className="panel form" onSubmit={submit} noValidate>

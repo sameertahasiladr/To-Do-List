@@ -8,18 +8,14 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
-
 const AuthContext = createContext<AuthState | null>(null);
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
   const logout = useCallback(() => {
     tokenStore.clear();
     setUser(null);
   }, []);
-
   useEffect(() => {
     if (!tokenStore.get()) {
       setLoading(false);
@@ -30,7 +26,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .catch(() => tokenStore.clear())
       .finally(() => setLoading(false));
   }, []);
-
   useEffect(() => {
     window.addEventListener("auth:expired", logout);
     return () => window.removeEventListener("auth:expired", logout);
@@ -44,10 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     tokenStore.set(res.token);
     setUser(res.user);
   };
-
   return <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>;
 }
-
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");

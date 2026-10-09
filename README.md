@@ -1,102 +1,216 @@
-# To-DO-List – To-Do App with User Management & RBAC
+# DoIt Today – To-Do App with User Management & RBAC
 
-A full-stack to-do application built with **React + TypeScript (Vite)** on the front end and **Node.js + Express + TypeScript** on the back end, using **PostgreSQL (Prisma)** for persistence.
+DoIt Today is a full-stack task management application built as part of a Full Stack Developer assessment. It allows users to create, update, delete, and organize tasks while providing role-based access control for administrators and regular users.
 
-- **Live app:** `<add your deployed URL>`
-- **API:** `<add your deployed API URL>`
+## Live Demo
 
-## Demo credentials
-
-| Role  | Email               | Password   |
-|-------|---------------------|------------|
-| Admin | admin@gmail.com   | Admin@123  |
-| User  | user@gmail.com    | User@123   |
+- **Live Application:** https://doit-today.vercel.app/
+- **Backend API:** https://to-do-api-capq.onrender.com
+- **GitHub Repository:** https://github.com/sameertahasiladr/To-Do-List
 
 ## Features
 
-**Tasks**
-- Home page lists tasks (name, status, priority); Add Task page with name + status (+ priority)
-- Mark complete / incomplete, edit, delete
-- Bonus: search by name, filter by status and priority, sort by name or status (newest first by default), pagination
-- Optional due dates, a stats bar (total, completed, pending, progress), and toast notifications
-- Search, filters, sort and page are kept in the URL, so views can be refreshed and shared
-- Responsive layout (mobile → desktop), plain CSS
+### Task Management
+- Create tasks with a name, status, priority, and optional due date.
+- Edit and delete existing tasks.
+- Mark tasks as complete or incomplete.
+- Search tasks by name.
+- Filter tasks by status and priority.
+- Sort tasks and navigate through paginated results.
+- View task statistics and completion progress.
+- Preserve search and filter settings in the URL.
 
-**Users & RBAC**
-- JWT authentication (bcrypt-hashed passwords), protected API routes and protected React routes
-- **Admin:** view / create / edit / delete users, change roles, view all tasks (read-only)
-- **User:** view, create, edit, delete and complete only their own tasks
-- Admins cannot create, edit or delete tasks, and cannot delete themselves or change their own role
-- Roles are re-read from the database on every request, so role changes and deletions take effect immediately
+### User Management & Role-Based Access Control
 
-## Tech stack
-React 19, React Router, Vite, TypeScript · Express 5, Prisma 6, PostgreSQL, Zod, JWT, bcryptjs
+**Admin**
+- View all registered users.
+- Create new user accounts.
+- Edit user information.
+- Delete user accounts.
+- Assign and change user roles.
+- View tasks belonging to all users.
+- Cannot create, edit, or delete tasks through the task-management functionality.
 
-## Run locally
+**User**
+- View their own tasks.
+- Create new tasks.
+- Edit and delete their own tasks.
+- Mark their tasks as complete or incomplete.
 
-Prerequisites: Node 20+, a PostgreSQL database (local, or a free one from Neon / Supabase).
+### Authentication and Security
+- JWT-based authentication.
+- Password hashing with bcrypt.
+- Protected API routes.
+- Role-based authorization on the backend.
+- Validation of incoming requests.
+- Restrictions to prevent users from managing other users' tasks.
+
+### User Interface
+- Responsive design for desktop and mobile devices.
+- Custom CSS styling.
+- Form validation and error messages.
+- Loading indicators and toast notifications.
+- Confirmation dialogs for important actions.
+- Keyboard focus indicators and reduced-motion support.
+
+## Technology Stack
+
+**Frontend**
+- React
+- TypeScript
+- Vite
+- React Router
+- CSS
+
+**Backend**
+- Node.js
+- Express
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- Zod
+- JSON Web Tokens (JWT)
+- bcryptjs
+
+## Project Structure
+
+```text
+To-Do-List/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── api.ts
+│   │   ├── auth.tsx
+│   │   └── types.ts
+│   ├── package.json
+│   └── .env.example
+│
+├── server/
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── seed.ts
+│   ├── src/
+│   │   ├── middleware/
+│   │   ├── routes/
+│   │   ├── validation.ts
+│   │   └── index.ts
+│   ├── package.json
+│   └── .env.example
+│
+├── README.md
+└── AI_PROMPTS.md
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20 or later
+- npm
+- PostgreSQL database
+
+### 1. Clone the Repository
 
 ```bash
-# 1. Backend
-cd server
-cp .env.example .env        # set DATABASE_URL and JWT_SECRET
-npm install
-npx prisma generate
-npm run db:push             # creates the tables
-npm run seed                # creates the demo admin + user
-npm run dev                 # http://localhost:4000
-
-# 2. Frontend (new terminal)
-cd client
-cp .env.example .env        # VITE_API_URL=http://localhost:4000/api
-npm install
-npm run dev                 # http://localhost:5173
+git clone https://github.com/sameertahasiladr/To-Do-List.git
+cd To-Do-List
 ```
 
-### Environment variables
+### 2. Set Up the Backend
 
-| File | Variable | Description |
-|------|----------|-------------|
-| server/.env | `DATABASE_URL` | PostgreSQL connection string |
-| server/.env | `JWT_SECRET` | Long random string used to sign tokens |
-| server/.env | `CLIENT_URL` | Allowed CORS origin(s); comma-separated for several |
-| server/.env | `PORT` | API port (default 4000) |
-| client/.env | `VITE_API_URL` | Base URL of the API, including `/api` |
+Navigate to the server directory and install the dependencies:
 
-## API overview
+```bash
+cd server
+npm install
+```
 
-| Method | Route | Access |
-|--------|-------|--------|
+Create a `.env` file in the `server` directory using `.env.example` as a reference.
+
+Configure the following variables:
+
+```env
+DATABASE_URL="your_postgresql_connection_string"
+JWT_SECRET="your_long_random_secret"
+CLIENT_URL="http://localhost:5173"
+PORT=4000
+```
+
+Generate Prisma Client, prepare the database, and seed the sample accounts:
+
+```bash
+npx prisma generate
+npm run db:push
+npm run seed
+npm run dev
+```
+
+The backend runs at `http://localhost:4000` by default.
+
+### 3. Set Up the Frontend
+
+Open a new terminal from the project root:
+
+```bash
+cd client
+npm install
+```
+
+Create a `.env` file in the `client` directory:
+
+```env
+VITE_API_URL=http://localhost:4000/api
+```
+
+Start the frontend:
+
+```bash
+npm run dev
+```
+
+Open the local URL displayed by Vite, usually `http://localhost:5173`.
+
+## Environment Variables
+
+| Variable | Location | Description |
+|---|---|---|
+| `DATABASE_URL` | `server/.env` | PostgreSQL connection string |
+| `JWT_SECRET` | `server/.env` | Secret used to sign JWTs |
+| `CLIENT_URL` | `server/.env` | Frontend origin allowed by CORS |
+| `PORT` | `server/.env` | Backend server port |
+| `VITE_API_URL` | `client/.env` | Backend API base URL, including `/api` |
+
+
+
+## API Overview
+
+| Method | Endpoint | Access |
+|---|---|---|
 | POST | `/api/auth/login` | Public |
 | GET | `/api/auth/me` | Authenticated |
-| GET | `/api/tasks/stats?today` | Authenticated (admin: all tasks, user: own) |
-| GET | `/api/tasks?page&limit&status&priority&due&search&sort&order&today` | Authenticated (admin sees all tasks, user sees own) |
-| POST | `/api/tasks` | User only |
-| PATCH / DELETE | `/api/tasks/:id` | User only, own tasks |
-| GET / POST | `/api/users` | Admin |
-| PATCH / DELETE | `/api/users/:id` | Admin |
+| GET | `/api/tasks` | Authenticated |
+| GET | `/api/tasks/stats` | Authenticated |
+| POST | `/api/tasks` | Regular user |
+| PATCH | `/api/tasks/:id` | Task owner |
+| DELETE | `/api/tasks/:id` | Task owner |
+| GET | `/api/users` | Admin |
+| POST | `/api/users` | Admin |
+| PATCH | `/api/users/:id` | Admin |
+| DELETE | `/api/users/:id` | Admin |
 
-## Project structure
+## Deployment
 
-```
-server/  prisma/schema.prisma, seed.ts
-         src/middleware/auth.ts   authenticate + authorize(role) guards
-         src/routes/              auth, tasks, users
-         src/validation.ts        Zod schemas
-client/  src/pages/               Login, Home, AddTask, Users
-         src/components/          Navbar, TaskItem
-         src/auth.tsx, api.ts     auth context + fetch wrapper
-```
+The application is deployed using:
 
-## Deployment (suggested)
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** PostgreSQL
 
-- **Database:** Neon or Supabase (PostgreSQL)
-- **API (Render / Railway):** root `server`, build `npm install && npm run build`, start `npm run db:push && npm start`, set env vars above. Run `npm run seed` once.
-- **Frontend (Vercel / Netlify):** root `client`, build `npm run build`, output `dist`, set `VITE_API_URL=https://<api-host>/api`. SPA rewrites are included (`vercel.json`, `public/_redirects`).
-- Set the API's `CLIENT_URL` to the deployed frontend URL.
+The frontend communicates with the backend through `VITE_API_URL`. The backend uses `CLIENT_URL` to configure permitted cross-origin requests.
 
-## Design decisions
-- Authorization is enforced on the server; the UI only hides what a role cannot use.
-- Admins have read-only access to all tasks; only users create and manage tasks, as the requirements list.
-- Accessing someone else's task returns 404 rather than 403 so IDs are not leaked.
-- Pagination, filtering and sorting run in the database query, not in the browser.
+
+
+
+

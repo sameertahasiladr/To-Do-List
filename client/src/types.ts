@@ -9,7 +9,6 @@ export interface User {
   role: Role;
   createdAt?: string;
 }
-
 export interface Task {
   id: string;
   name: string;
@@ -20,16 +19,13 @@ export interface Task {
   createdAt: string;
   user: { id: string; name: string };
 }
-
 export type TaskChanges = Partial<Pick<Task, "name" | "status" | "priority" | "dueDate">>;
-
 export interface TaskPage {
   items: Task[];
   total: number;
   page: number;
   pages: number;
 }
-
 export interface Stats {
   total: number;
   complete: number;

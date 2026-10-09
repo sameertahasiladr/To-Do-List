@@ -19,13 +19,11 @@ export default function TaskItem({ task, canModify, showOwner, onUpdate, onDelet
   const [dueDate, setDueDate] = useState(task.dueDate ? dateOnly(task.dueDate) : "");
   const done = task.status === "COMPLETE";
   const due = dueInfo(task.dueDate, done);
-
   const save = () => {
     if (!name.trim()) return;
     onUpdate({ name: name.trim(), priority, dueDate: dueDate || null }, "Task updated");
     setEditing(false);
   };
-
   const cancel = () => {
     setName(task.name);
     setPriority(task.priority);

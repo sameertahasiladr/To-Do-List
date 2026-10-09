@@ -33,7 +33,7 @@ export default function Login() {
       <section className="login-art" aria-hidden="true">
         <div className="login-art-top">
           <BrandMark size={34} />
-          <span>To-DO-List</span>
+          <span>DoTt-Today</span>
         </div>
 
         <div className="login-art-body">
@@ -83,7 +83,6 @@ export default function Login() {
           <button className="btn btn-primary btn-lg" disabled={busy}>
             {busy ? "Signing in…" : "Sign in"}
           </button>
-          <p className="login-note">Accounts are created by an administrator.</p>
         </form>
       </div>
     </div>

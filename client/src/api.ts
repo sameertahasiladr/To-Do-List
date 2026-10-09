@@ -6,13 +6,11 @@ export const tokenStore = {
   set: (t: string) => localStorage.setItem(TOKEN_KEY, t),
   clear: () => localStorage.removeItem(TOKEN_KEY),
 };
-
 export class ApiError extends Error {
   constructor(message: string, public status: number) {
     super(message);
   }
 }
-
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = tokenStore.get();
   const res = await fetch(`${BASE}${path}`, {

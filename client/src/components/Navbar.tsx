@@ -21,7 +21,7 @@ export default function Navbar() {
       <div className="navbar-inner">
         <NavLink to="/" className="brand">
           <BrandMark />
-          To-DO-List
+          DoTt-Today
         </NavLink>
         <nav className="nav-links" aria-label="Main">
           <NavLink to="/" end>Tasks</NavLink>

@@ -10,23 +10,17 @@ import { todayLocal } from "../dates";
 import { useToast } from "../toast";
 import { Priority, Stats, Status, Task, TaskChanges, TaskPage } from "../types";
 
-
 const DEFAULTS: Record<string, string> = { sort: "createdAt", page: "1" };
-
 const ORDER: Record<string, "asc" | "desc"> = { createdAt: "desc", name: "asc", status: "asc", dueDate: "asc" };
-
 export default function Home() {
   const { user } = useAuth();
   const toast = useToast();
   const isAdmin = user?.role === "ADMIN";
-
   const [data, setData] = useState<TaskPage | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [toDelete, setToDelete] = useState<Task | null>(null);
-
-
   const [params, setParams] = useSearchParams();
   const status = (params.get("status") ?? "") as "" | Status;
   const priority = (params.get("priority") ?? "") as "" | Priority;
@@ -35,9 +29,7 @@ export default function Home() {
   const page = Math.max(1, Number(params.get("page")) || 1);
   const search = params.get("search") ?? "";
   const adding = params.get("add") === "1";
-
   const [searchInput, setSearchInput] = useState(search);
-
   const updateParams = useCallback(
     (changes: Record<string, string>, opts: { resetPage?: boolean; replace?: boolean } = {}) => {
       const next = new URLSearchParams(params);
@@ -51,13 +43,11 @@ export default function Home() {
     [params, setParams]
   );
 
-  
   useEffect(() => {
     if (searchInput === search) return;
     const t = setTimeout(() => updateParams({ search: searchInput.trim() }, { replace: true }), 350);
     return () => clearTimeout(t);
   }, [searchInput, search, updateParams]);
-
 
   useEffect(() => { setSearchInput(search); }, [search]);
 
@@ -89,8 +79,6 @@ export default function Home() {
   useEffect(() => { loadStats(); }, [loadStats]);
 
   const refresh = () => Promise.all([load(), loadStats()]);
-
-
   const update = async (task: Task, changes: TaskChanges, message: string) => {
     const previous = data;
     setData((d) => d && { ...d, items: d.items.map((t) => (t.id === task.id ? ({ ...t, ...changes } as Task) : t)) });
@@ -109,7 +97,6 @@ export default function Home() {
       toast.error((err as Error).message);
     }
   };
-
   const remove = async (task: Task) => {
     setToDelete(null);
     const previous = data;
@@ -132,25 +119,20 @@ export default function Home() {
       toast.error((err as Error).message);
     }
   };
-
   const openAdd = () => updateParams({ add: "1" }, { resetPage: false });
   const closeAdd = () => updateParams({ add: "" }, { resetPage: false, replace: true });
-
   const hasFilters = !!(status || priority || due || search || sort !== DEFAULTS.sort);
   const clearFilters = () => {
     setSearchInput("");
     updateParams({ status: "", priority: "", due: "", search: "", sort: "" });
   };
-
   return (
     <>
       <div className="page-head">
         <h1>{isAdmin ? "All tasks" : "My tasks"}</h1>
         {!isAdmin && <button className="btn btn-primary" onClick={openAdd}>Add task</button>}
       </div>
-
       <StatsBar stats={stats} />
-
       <div className="toolbar" role="search">
         <div className="search grow">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -190,9 +172,7 @@ export default function Home() {
         </select>
         {hasFilters && <button className="btn btn-ghost btn-sm" onClick={clearFilters}>Clear filters</button>}
       </div>
-
       {error && <div className="alert" role="alert">{error}</div>}
-
       {loading && !data && (
         <ul className="task-list" aria-busy="true" aria-label="Loading tasks">
           {[0, 1, 2, 3].map((i) => (
@@ -200,7 +180,6 @@ export default function Home() {
           ))}
         </ul>
       )}
-
       {data && data.items.length === 0 && !loading && (
         <div className="empty">
           {hasFilters ? (
@@ -223,7 +202,6 @@ export default function Home() {
           )}
         </div>
       )}
-
       {data && data.items.length > 0 && (
         <ul className="task-list">
           {data.items.map((task) => (
@@ -238,7 +216,6 @@ export default function Home() {
           ))}
         </ul>
       )}
-
       {adding && !isAdmin && (
         <AddTaskDialog
           onClose={closeAdd}
@@ -248,7 +225,6 @@ export default function Home() {
           }}
         />
       )}
-
       <ConfirmDialog
         open={!!toDelete}
         title="Delete task?"
@@ -256,7 +232,6 @@ export default function Home() {
         onConfirm={() => toDelete && remove(toDelete)}
         onCancel={() => setToDelete(null)}
       />
-
       {data && data.pages > 1 && (
         <nav className="pagination" aria-label="Pagination">
           <button className="btn btn-ghost btn-sm" disabled={page <= 1} onClick={() => updateParams({ page: String(page - 1) }, { resetPage: false })}>Previous</button>

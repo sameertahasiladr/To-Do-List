@@ -8,7 +8,6 @@ interface Props {
   onConfirm: () => void;
   onCancel: () => void;
 }
-
 export default function ConfirmDialog({ open, title, message, confirmLabel = "Delete", onConfirm, onCancel }: Props) {
   useEffect(() => {
     if (!open) return;
@@ -16,9 +15,7 @@ export default function ConfirmDialog({ open, title, message, confirmLabel = "De
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onCancel]);
-
   if (!open) return null;
-
   return (
     <div className="modal-backdrop" onClick={onCancel}>
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={(e) => e.stopPropagation()}>

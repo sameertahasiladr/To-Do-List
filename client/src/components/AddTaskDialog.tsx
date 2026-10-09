@@ -8,7 +8,6 @@ interface Props {
   onClose: () => void;
   onCreated: () => void;
 }
-
 export default function AddTaskDialog({ onClose, onCreated }: Props) {
   const toast = useToast();
   const [name, setName] = useState("");
@@ -17,13 +16,11 @@ export default function AddTaskDialog({ onClose, onCreated }: Props) {
   const [dueDate, setDueDate] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && !busy && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose, busy]);
-
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return setError("Task name is required");
@@ -41,7 +38,6 @@ export default function AddTaskDialog({ onClose, onCreated }: Props) {
       setBusy(false);
     }
   };
-
   return (
     <div className="modal-backdrop" onClick={() => !busy && onClose()}>
       <form
@@ -61,10 +57,7 @@ export default function AddTaskDialog({ onClose, onCreated }: Props) {
             </svg>
           </button>
         </div>
-        <p className="muted page-sub">Give it a name, set how urgent it is, and add a due date if it has one.</p>
-
-        {error && <div className="alert" role="alert">{error}</div>}
-
+          {error && <div className="alert" role="alert">{error}</div>}
         <label className="modal-field">Task name
           <input value={name} onChange={(e) => setName(e.target.value)} maxLength={200} placeholder="e.g. Finish assessment" autoFocus />
         </label>

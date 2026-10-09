@@ -15,7 +15,6 @@ function Protected({ children, role }: { children: ReactNode; role?: Role }) {
   if (role && user.role !== role) return <Navigate to="/" replace />;
   return <>{children}</>;
 }
-
 export default function App() {
   return (
     <>
