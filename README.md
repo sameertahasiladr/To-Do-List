@@ -1,4 +1,4 @@
-# DoIt Today – To-Do App with User Management & RBAC
+# DoIt Today — To-Do List 
 
 DoIt Today is a full-stack task management application built as part of a Full Stack Developer assessment. It allows users to create, update, delete, and organize tasks while providing role-based access control for administrators and regular users.
 
